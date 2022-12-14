@@ -1,0 +1,289 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: Roboto, Segoe UI, Tahoma, sans-serif;
+}
+:root {
+   --box-background: #95C15F;
+   --box-o-background: #93FEFD;
+   --box-x-background: #0E1F55;
+   --color-secondry: #abff28;
+   --button-background: #4535a0;
+   --button-gradient: var(--color-secondry), #77bd0f;
+   --container-shadow: 0px 3px 6px #16161657;   
+   --color-primary: #ffffffd7;
+   --container-backgrond: #001C73;
+   --winner-text-shadow: 0px 2px 8px #c11c00b9;
+}
+/*
+   animationNames [show-effect] = [hide-effect] = [win-effect]
+   @keyframes percents [0%,50%,70%,100%] = [0%,50%,100%] = [0%,100%]
+   @keyframes values: [-100%,5%,-5%,0%] = [0%,-11%,100%] = [8,1]
+*/
+/* ------------------------------------------
+                  elment style
+*/
+body {
+   height: 100vh;
+   width: 100%;
+   position: relative;
+   background-color: #eee;
+}
+/* game-area-container */
+.game-area-container {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   user-select: none;
+   position: relative;
+   background-image: url(./image/gamebackground.jpg);
+   background-size: 100% 100%;
+   background-repeat: no-repeat;
+}
+/* game-area */
+.game-area {
+   width: 100%;
+   height: 100%;
+   position: relative;
+   flex-direction: column;
+   overflow: hidden;
+   animation: show-effect 1s linear 1;
+}
+.game-area.hide {
+   animation: hide-effect 1s linear 1;
+}
+/* exit button */
+.exit {
+   width: 100px;
+   height: 40px;
+   top: 0;
+   right: 0;
+   margin: 22px;
+   border-radius: 8px;
+   position: absolute;
+   z-index: 1000;
+}
+/* play-with */
+.play-with h1 {
+   padding: 11px;
+   margin-bottom: 8px;
+   text-transform: uppercase;
+   color: var(--color-primary);
+}
+/* play-with-buttons */
+.play-with button {
+   width: 222px;
+   height: 50px;
+   margin: 0 8px;
+   font-size: 17px;
+   border-radius: 8px;
+   text-transform: capitalize;
+}
+/* game-board-container */
+.game-board-container .icon-x {
+   position: absolute;
+   top: -10px;
+   right: -9px;
+   cursor: pointer;
+   width: 25px;
+   height: 25px;
+   border-radius: 50%;
+   color: var(--color-primary);
+   background: linear-gradient(var(--button-gradient));
+}
+/* players */
+.players {
+   padding: 22px;
+   flex-wrap: wrap;
+   position: relative;
+}
+.players div {
+   width: 60px;
+   height: 60px;
+   margin: 2px 60px;
+   border-radius: 5px;
+   position: relative;
+   background-color: #858536;
+   border: 4px solid var(--color-primary);
+}
+.players::after {
+   content: "V/S";
+   position: absolute;
+   font-size: 40px;
+   font-weight: bold;
+   color: var(--color-secondry);
+}
+.players div.active {
+   border-color: var(--color-secondry);
+}
+/* game-board-cover */
+.game-board-cover {
+   position: relative;
+}
+/* You win effects */
+.game-board-cover.winner::after {
+   content: "You Win";
+   position: absolute;
+   font-size: 40px;
+   font-weight: bold;
+   color: var(--color-secondry);
+   text-shadow: var(--winner-text-shadow);
+   animation: winner-effect 0.6s linear 1;
+}
+/* game-board */
+.game-board {
+   width: 333px;
+   height: 333px;
+   display: grid;
+   margin-top: 11px;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: repeat(3, 1fr);
+}
+.game-board div {
+   margin: 4px;
+   border-radius: 4px;
+   position: relative;
+   cursor: pointer;
+   background: var(--box-background);
+}
+/* winner-toggle */
+.winner-toggle {
+   width: 100%;
+   min-height: 50px;
+   padding: 15px 22px;
+   position: absolute;
+   border-radius: 6px;
+   flex-direction: column;
+   background-color: #f14c46;
+}
+.winner-toggle h1 {
+   margin-bottom: 22px;
+   font-size: 30px;
+   text-transform: capitalize;
+   color: #fff;
+}
+.winner-toggle .play-again {
+   width: 150px;
+   height: 45px;
+   font-size: 16px;
+   font-weight: 500;
+   border-radius: 8px;
+   letter-spacing: 1px;
+   text-transform: capitalize;
+}
+
+/* ------------------------------------------
+               ::after ::before
+*/
+/* ------------------------------------------
+                  Drawing X
+*/
+.game-board[data-indicate=--x] div:not([data-sign=--x], [data-sign=--o]):hover::after,
+.game-board[data-indicate=--x] div:not([data-sign=--x], [data-sign=--o]):hover::before,
+
+.players div[data-sign=--x]::after,
+.players div[data-sign=--x]::before,
+
+.game-board div[data-sign=--x]::after,
+.game-board div[data-sign=--x]::before {
+   content: "";
+   width: 70%;
+   height: 14px;
+   position: absolute;
+   border-radius: 10px;
+   background: var(--box-x-background);
+}
+
+.game-board[data-indicate=--x] div:not([data-sign=--x], [data-sign=--o]):hover::after,
+.players div[data-sign=--x]::after,
+.game-board div[data-sign=--x]::after {
+   transform: rotate(45deg);
+}
+
+.game-board[data-indicate=--x] div:not([data-sign=--x], [data-sign=--o]):hover::before,
+.players div[data-sign=--x]::before,
+.game-board div[data-sign=--x]::before {
+   transform: rotate(-45deg);
+}
+
+.players div[data-sign=--x]::after,
+.players div[data-sign=--x]::before {
+   height: 8px;
+}
+/* ------------------------------------------
+                  Drawing O
+*/
+.game-board[data-indicate=--o] div:not([data-sign=--x], [data-sign=--o]):hover::after,
+.players div[data-sign=--o]::after,
+.game-board div[data-sign=--o]::after {
+   content: "";
+   width: calc( 70% - 28px );
+   height: calc( 70% - 28px );
+   border-radius: 50%;
+   border: 14px solid var(--box-o-background);
+}
+
+.players div[data-sign=--o]::after {
+   width: calc( 70% - 16px );
+   height: calc( 70% - 16px );
+   border: 8px solid var(--box-o-background);
+}
+
+/* ------------------------------------------
+                  Default
+*/
+button {
+   border: none;
+   outline: none;
+   cursor: pointer;
+}
+
+/* ------------------------------------------
+                  Commons
+*/
+.game-area, .flex-box, .icon-x, .players, .winner-toggle,
+.game-board-cover, .game-board div, .players div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.exit, .play-with button, .winner-toggle .play-again {
+   font-weight: 500;
+   letter-spacing: 1px;
+   text-shadow: -1px 0px 0px var(--color-primary);
+   color: var(--color-primary);
+   background: linear-gradient(var(--button-gradient));
+}
+.play-with, .game-board-container {
+   min-width: 444px;
+   min-height: 100px;
+   position: relative;
+   padding: 22px;
+   box-shadow: var(--container-shadow);
+   background-color: var(--container-backgrond);
+}
+.play-with button:hover, .exit:hover, .icon-x:hover,
+.winner-toggle .play-again:hover {
+   opacity: 0.8;
+   transition: all 0.1s ease-in-out;
+}
+
+/* ------------------------------------------
+                  @keyframes
+*/
+@keyframes show-effect {
+   0% { transform: translateY(-100%);}
+   50% { transform: translateY(5%);}
+   70% { transform: translateY(-5%);}
+   100% { transform: translateY(0%);}
+}
+@keyframes winner-effect {
+   0% { transform: scale(8);}
+   100% { transform: scale(1);}
+}
+@keyframes hide-effect {
+   0% { transform: translateY(0%);}
+   50% { transform: translateY(-11%);}
+   100% { transform: translateY(100%);}
+}
